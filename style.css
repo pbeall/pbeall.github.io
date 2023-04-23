@@ -4,6 +4,7 @@
 
 body {
 	--entireContent-width: 80%;
+	--topbar-extraHeight: 0em;
 	
 	--content-background: azure;
 	--font-color: black;
@@ -13,7 +14,7 @@ body {
 	--themeSwitch-justify-content: flex-end;
 	--themeSwitch-background-color: darkviolet;
 	
-	--course-background-color: floralwhite;
+	--course-background-color: bisque;
 }
 .dark {
 	--content-background: black;
@@ -26,9 +27,11 @@ body {
 	
 	--course-background-color: darkslategray;
 }
-@media only screen and (max-width: 600px) {
+/*for thin screens, remove background and increase button size*/
+@media screen and (orientation: portrait) {
   body {
     --entireContent-width: 100%;
+	--topbar-extraHeight: 1em;
   }
 }
 
@@ -48,7 +51,7 @@ body {
 	grid-row: 1;
 	font-size: 1em;
 	padding: 0.5em;
-	line-height: 1;
+	line-height: calc(1em + var(--topbar-extraHeight));
 	text-align: center;
 	
 	color: ivory;
@@ -66,14 +69,14 @@ body {
 .themeImage {
 	float: right;
 	display: flex;
-	margin: 0.2em;
+	margin: calc(0.2em + var(--topbar-extraHeight)/2);
 	height: 1.6em;
 	width: 1.6em;
 }
 .themeSwitch {
 	float: right;
 	display: flex;
-	margin-top: 0.2em;
+	margin-top: calc(0.2em + var(--topbar-extraHeight)/2);
 	height: 1.6em;
 	width: 3.2em;
 	justify-content: var(--themeSwitch-justify-content);
@@ -91,19 +94,20 @@ body {
 	background-color: azure;
 }
 
-/* put all the main content in the center, with some background stuff on the left and right */
+/* put the main content in the center, with some background on the left and right */
 .entire {
 	align-items: top;
-	display: flex;
 	justify-content: center;
 	min-height: 100vh/*calc(100vh - 2em)*/;
 	
-	background-image: url("images/gauss.jpg");
-	background-size: 2%;
+	overflow: hidden;
+	
+	/*background-image: url("images/gauss.jpg");
+	background-size: 2%;*/
 	background-color: purple;
 }
 .entireContent {
-	height: auto;
+	min-height: 100vh;
 	width: var(--entireContent-width);
 	margin: 0 auto;
 	
@@ -111,6 +115,22 @@ body {
 	box-sizing: border-box; /*prevent padding from changing the width*/
 	
 	background-color: var(--content-background);
+}
+.backgroundTile {
+	width: 20%;
+	height: 0;
+	padding-bottom: 20%;
+	float: left;
+}
+.backgroundContainerLeft {
+	width: calc((100% - var(--entireContent-width))/2);
+	height: 42px;/*height does not matter since content will overflow as desired*/
+	float: left;
+}
+.backgroundContainerRight {
+	width: calc((100% - var(--entireContent-width))/2);
+	height: 42px;
+	float: right;
 }
 
 p {
@@ -123,47 +143,4 @@ a:link {
 }
 a:visited {
 	color: var(--a-visited-color);
-}
-
-.course {
-	margin: 0px 0px 10px 0px;
-	padding: 10px;
-	
-	background-color: var(--course-background-color);
-	
-	/*display: grid; turns out I could just put float:right in the image
-	grid-template-columns: 1fr min-width;
-	grid-template-rows: 50px 100px;
-	
-	grid-template-areas:
-		"title image"
-		"topics image";
-	
-	column-gap: 5px;
-	row-gap: 0px;*/
-}
-
-.course > p {
-	font-family: Arial, sans-serif;
-	font-size: 1.1em;
-	color: var(--font-color);
-	/*grid-area: topics;*/
-}
-.course > h1 {
-	font-family: "Arial Black", sans-serif;
-	font-weight: normal;
-	font-size: 1.1em;
-	color: var(--font-color);
-	/*grid-area: title;*/
-}
-
-.course > img {
-	float: right;
-	height: 120px;
-	
-	margin: 0px 0px 0px 10px;
-	
-	/*grid-area: image;
-	justify-self: center;
-	aspect-ratio: 1/1;*/
 }
