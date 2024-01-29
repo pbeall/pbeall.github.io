@@ -1,14 +1,14 @@
 var themeSwitchCheckbox = document.querySelector(".themeSwitch input");
 
 function updateTheme() {
-	var nextTheme = themeSwitchCheckbox.checked ? "dark" : "light";
+	var nextTheme = themeSwitchCheckbox.checked ? "light" : "dark";
 	
 	document.querySelector("body").className = nextTheme;
 	localStorage.setItem('theme', nextTheme);
 }
 
 //maintain the selected theme when switching pages:
-themeSwitchCheckbox.checked = localStorage.getItem('theme') == 'dark';
+themeSwitchCheckbox.checked = localStorage.getItem('theme') == 'light';
 updateTheme();
 
 //each page should have the same buttons in the topbar:
