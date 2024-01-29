@@ -1,0 +1,186 @@
+\documentclass[12pt]{article}
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+
+\usepackage[right=1.5in,top=1in,left=1.5in,bottom=1in]{geometry}
+
+\usepackage{enumitem}
+
+\usepackage[all]{xy}
+
+\usepackage{hyperref}
+
+\DeclareMathOperator{\spn}{span}
+
+\let\emptyset\varnothing
+
+%https://latexdraw.com/predefined-latex-colors-dvipsnames/
+\usepackage[dvipsnames]{xcolor}
+\definecolor{dark-gray}{gray}{0.4}
+\theoremstyle{definition}
+\newtheorem*{definition}{\color{Green} Definition}
+\newtheorem{fact}{\color{blue} Fact}
+\newtheorem*{theorem}{\color{blue} Theorem}
+\newtheorem{result}{\color{blue} Result}
+\newtheorem*{lemma}{\color{olive} Lemma}
+\newtheorem*{question}{\color{violet} Question}
+\newtheorem*{remark}{\color{RedOrange} Remark}
+\newtheorem*{notation}{\color{teal} Notation}
+\newtheorem*{axiom}{\color{purple} Axiom}
+
+\usepackage{fancyhdr}\usepackage{lastpage}\pagestyle{fancy}
+\renewcommand{\headrulewidth}{0pt}
+\fancyfoot[C]{Page \thepage \hspace{1pt} of \pageref{LastPage}}
+\fancyhead[L,R]{}
+
+\usepackage{sectsty}
+\sectionfont{\fontsize{12}{15}\selectfont}
+
+\usepackage[scr=rsfso]{mathalpha}
+
+\begin{document}
+
+\newpage
+
+\begin{center}
+	\textbf{An Equivalent Form of Choice in Linear Algebra}
+	
+	\textsc{15 February 2024}
+	
+	\textsc{P. Beall}
+\end{center}
+\hrule
+\begin{abstract}
+	\noindent The Axiom of Choice is equivalent to the assertion that every vector space has a basis. First, we review transfinite recursion. Next, we use transfinite recursion and the Axiom of Choice to construct a basis for an arbitrary vector space. Conversely, we follow a non-obvious proof that the Axiom of Choice follows from the assertion that every vector space has a basis.
+\end{abstract}
+\hrule
+
+\section*{Transfinite Recursion}
+
+We can construct objects $X_\alpha$ for ordinals $\alpha$ by completing three steps:
+\begin{enumerate}[label=(\arabic*)]
+	\item Construct $X_0$.
+	\item Given $X_\alpha$, describe how to construct $X_{S(\alpha)}$.
+	\item Given a limit ordinal $\beta$ and given $X_\alpha$ for $\alpha<\beta$, describe how to construct $X_\beta$.
+\end{enumerate}
+This is known as ``transfinite recursion.'' If we drop step (3), then this becomes the more well-known recipe for constructing objects by induction over $\mathbb{N}$.
+
+We can prove statements $P(\alpha)$ for ordinals $\alpha$ by completing one step:
+\begin{enumerate}[label=(\arabic*)]
+	\item Given an ordinal $\beta$ and given $P(\alpha)$ for all $\alpha<\beta$, prove $P(\beta)$.
+\end{enumerate}
+This is known as ``transfinite induction.'' Actually, the above three steps can be condensed into one step, and this one step and be split into three cases, depending on whether $\beta$ is $0$, a successor ordinal, or a limit ordinal.
+
+The collection of ordinals is a certain proper class. See section 2 of \cite{Chua} or chapter 6 of \cite{HrbacekJech} for the details. For this talk, we don't need to know all the details about what ordinals are. We just need to trust that transfinite recursion works, and that the following five facts are true.
+
+\begin{fact}
+	Each ordinal is a set of ordinals, and $0=\emptyset$ is an ordinal. 
+\end{fact}
+\begin{fact}
+	The collection of ordinals is well-ordered by $\in$. Here, we sometimes denote $\alpha\in\beta$ by $\alpha<\beta$.
+\end{fact}
+\begin{fact}
+	Each ordinal $\alpha$ has an immediate successor $S(\alpha)$, i.e. $\alpha<\beta$ implies $\alpha <S(\alpha)\leq\beta$.
+\end{fact}
+\begin{fact}
+	If an ordinal $\alpha$ is not $0$ and is not the immediate successor of any ordinal, then $\alpha$ is a limit ordinal.
+\end{fact}
+\begin{fact}[Hartog]
+	If $X$ is a set, then there exists an ordinal $\alpha$ such that there are no injections $\alpha\hookrightarrow X$.
+\end{fact}
+%\begin{proof}[Proof Idea]
+%	Let $\alpha$ be the collection of ordinals $\beta$ such that there exists an injection $\beta\hookrightarrow X$.
+%\end{proof}
+
+\section*{Linear Independence}
+
+Now, we state the necessary results from linear algebra. For a more thorough review of linear algebra, see \cite{Kuang} or chapter 11 of \cite{DummitFoote}.
+
+\begin{result}
+	A subset $I$ of a vector space is linearly independent if and only if every finite subset of $I$ is linearly independent. Hence, if $I$ is linearly independent and $S\subseteq I$, then $S$ is linearly independent.
+\end{result}
+\begin{result}
+	If $I$ is a linearly independent subset of a vector space $V$ and $v\in V\setminus\spn(I)$, then $I\cup\{v\}$ is linearly independent.
+\end{result}
+
+\section*{The Equivalence}
+
+We are now ready to begin the main result of this talk. For the first direction, the idea is to adjoin elements to a linearly independent set until it becomes a basis. Transfinite recursion allows us to adjoin infinitely many elements if necessary.
+
+\begin{axiom}[Choice]
+	Suppose $\mathcal{F}$ is a nonempty family of nonempty sets, i.e. $\mathcal{F}$ is a nonempty set and $X$ is a nonempty set for every $X\in\mathcal{F}$. Then $\prod_{X\in\mathcal{F}} X$ is nonempty, i.e. there exists a map $f: \mathcal{F}\rightarrow\bigcup\mathcal{F}$ such that $f(X)\in X$ for every $X\in\mathcal{F}$.
+\end{axiom}
+
+\begin{theorem}
+	If the Axiom of Choice holds, then every vector space has a basis.
+\end{theorem}
+\begin{proof}
+Let $V$ be a vector space. According to Choice, we can let
+\[
+	f: \mathcal{P}(V)\setminus\{\emptyset\}\rightarrow V
+\]
+be a map such that $f(X)\in X$ for every $X\in\mathcal{P}(V)\setminus\{\emptyset\}$. Note that the definition of vector space implies that $V$ is nonempty, whence $\mathcal{P}(V)\setminus\{\emptyset\}$ is nonempty.
+
+Define $I_\alpha$ for all ordinals $\alpha$ by transfinite recursion as follows. Let $I_0 = \emptyset$. If $I_\alpha$ has been defined, then let
+\[
+	I_{S(\alpha)} = \left\{ \begin{array}{ll}
+		I_\alpha &\text{ if } \spn(I_\alpha) = V \\
+		I_\alpha\cup\{f(V\setminus\spn(I_\alpha))\} &\text{ if } \spn I_\alpha \subsetneq V
+	\end{array}\right.\,.
+\]
+If $\beta$ is a limit ordinal and $I_\alpha$ has been defined for $\alpha<\beta$, then let $I_\beta = \bigcup_{\alpha<\beta} I_\alpha$.
+
+Suppose for transfinite induction that $\beta$ is an ordinal such that $I_\alpha$ is linearly independent for all $\alpha<\beta$. If $\beta = 0$, then $I_\beta=I_0=\emptyset$ is vacuously linearly independent. If $\beta$ is a limit ordinal and $T\subseteq I_\beta$ is finite, then $T\subseteq I_\alpha$ for some $\alpha<\beta$ (to see this, set
+\[
+	\alpha = \max\{\min\{\alpha\in\beta\mid t\in I_\alpha\} \mid t\in T\}\,\text{),}
+\]
+whence $T$ is linearly independent by Result 1 and $I_\beta$ is linearly independent by Result 1. Otherwise, $\beta = S(\alpha)$ for some $\alpha$. If $I_\beta = I_\alpha$, then $I_\beta$ is immediately linearly independent. Otherwise, $I_\beta = I_\alpha\cup\{f(V\setminus\spn I_\alpha)\}$ is linearly independent by Result 2. It follows that $I_\alpha$ is linearly independent for all ordinals $\alpha$.
+
+Observe that transfinite induction can be used to show that $\alpha\leq\beta$ implies $I_\alpha\subseteq I_\beta$.
+
+Hartog's Theorem says there is an ordinal $\gamma$ such that there are no injections $\gamma\hookrightarrow\mathcal{P}(V)$. In particular, the map $\gamma\rightarrow\mathcal{P}(V)$ defined by $\alpha\mapsto I_\alpha$ is not injective. So, there must be some two distinct ordinals $\alpha<\beta$ with $I_\alpha = I_\beta$. Fact 3 says $\alpha<S(\alpha)\leq\beta$, whence
+\[
+	I_\alpha\subseteq I_{S(\alpha)}\subseteq I_\beta = I_\alpha
+\]
+and thus $I_\alpha = I_{S(\alpha)}$. If $\spn I_\alpha\subsetneq V$, then $f(V\setminus\spn I_\alpha)\in I_{S(\alpha)}\setminus I_\alpha$, contradicting $I_\alpha = I_{S(\alpha)}$. So, we must have $\spn I_\alpha = V$. Hence $I_\alpha$ is a basis for $V$.
+\end{proof}
+
+\begin{remark}
+	If $V$ happens to already be well-ordered, then $f$ can be replaced by $\min$ and we can construct a basis for $V$ without using Choice.
+\end{remark}
+
+\begin{remark}
+	The Teichmüller-Tukey lemma along with Result 1 immediately implies that every vector space has a basis. Small modifications can be made to the above proof to yield a proof of the Teichmüller-Tukey lemma from the Axiom of Choice.
+\end{remark}
+
+For the other direction, we follow the original proof given in \cite{Blass}.
+
+\begin{theorem}[Blass]
+	If every vector space has a basis, then the Axiom of Choice holds.
+\end{theorem}
+\begin{proof}
+TODO
+\end{proof}
+
+\clearpage
+
+\bibliographystyle{amsplain}
+\begin{thebibliography}{1}
+	\bibitem{Barnum} Barnum, Kevin. ``The Axiom of Choice and its Implications.'' \href{https://math.uchicago.edu/~may/REU2014/REUPapers/Barnum.pdf}{\nolinkurl{math.uchicago.edu/~may/REU2014/REUPapers/Barnum.pdf}}
+	
+	\bibitem{Blass} Blass, Andreas. ``Existence of Bases Implies the Axiom of Choice.'' Contemporary Mathematics, Volume 31. 1984. \href{https://dept.math.lsa.umich.edu/~ablass/bases-AC.pdf}{\nolinkurl{dept.math.lsa.umich.edu/~ablass/bases-AC.pdf}}
+	
+	\bibitem{Chua} Chua, Dexter. ``Logic and Set Theory.'' \href{https://dec41.user.srcf.net/notes/II_L/logic_and_set_theory.pdf}{\nolinkurl{dec41.user.srcf.net/notes/II_L/logic_and_set_theory.pdf}}
+	
+	\bibitem{DummitFoote} Dummit, D.S. and Foote, R.M. \emph{Abstract Algebra}, Third edition.
+	
+	\bibitem{HrbacekJech} Hrbacek, Karel and Jech, Thomas. \emph{Introduction to Set Theory}, Third Edition.%see nice notes
+	
+	\bibitem{Kuang} Kuang, Qiangru. ``Linear Algebra.'' \href{https://qk206.user.srcf.net/notes/linear_algebra.pdf}{\nolinkurl{qk206.user.srcf.net/notes/linear_algebra.pdf}}
+	
+	\bibitem{Lang} Lang, Serge. \emph{Algebra}, Third edition.
+\end{thebibliography}
+
+\end{document}

@@ -11,7 +11,27 @@ function updateTheme() {
 themeSwitchCheckbox.checked = localStorage.getItem('theme') == 'dark';
 updateTheme();
 
+//each page should have the same buttons in the topbar:
+const navigation = [
+	{link: "index.html", displayName: "CV"},
+	{link: "expository.html", displayName: "Talks"},
+	{link: "joke.html", displayName: "Jokes"}
+]
 
+var topbar = document.querySelector("div.topbar > div");
+var currentLink = location.href.split("/").slice(-1).toString().trim(); 
+
+for (let i=0; i<navigation.length; i++) {
+	let newNavButton = document.createElement("a");
+	newNavButton.href = navigation[i]["link"]
+	newNavButton.innerHTML = navigation[i]["displayName"]
+	
+	if (navigation[i]["link"] === currentLink) {
+		newNavButton.className = "selected";
+	}
+	
+	topbar.appendChild(newNavButton);
+}
 
 //tile background such that no tile is adjacent to a tile of the same or opposite color
 
@@ -37,10 +57,16 @@ const colorToExcluded = [
 	new Set([3,2]),
 	new Set([4,5]),
 	new Set([5,4]),
-	new Set() //noncolor
+	new Set() //placeholder color
 ]
 
-const colors = new Set([0, 1, 2, 3, 4, 5]);
+//number of colors, and also placeholder color
+const numColors = colorToName.length;//should equal colorToExcluded.length - 1
+
+const colors = new Set();
+for (i=0; i<numColors; i++) {
+	colors.add(i);
+}
 
 var backgroundContainer = document.querySelector(".entire");
 var insertBeforeThis = backgroundContainer.firstChild;
@@ -53,14 +79,14 @@ backgroundContainerRight.className = "backgroundContainerRight";
 backgroundContainer.insertBefore(backgroundContainerLeft, insertBeforeThis);
 backgroundContainer.insertBefore(backgroundContainerRight, insertBeforeThis);
 
-var colorLeft = 6;
-var colorsAbove = [6, 6, 6, 6, 6, 6, 6, 6, 6, 6];
+var colorLeft = numColors;
+var colorsAbove = Array(10).fill(numColors);
 
 for (let i=0; i<70; i++) {
 	for (let j=0; j<10; j++) {
 		let colorCandidates = difference(difference(colors, colorToExcluded[colorLeft]), colorToExcluded[colorsAbove[j]]);
 		
-		let chosenColor = 6;
+		let chosenColor = numColors;
 		
 		let k = colorCandidates.size;
 		
@@ -95,9 +121,9 @@ for (let i=0; i<70; i++) {
 			backgroundContainerRight.appendChild(newTile);
 		}
 		if (j == 4) {
-			colorLeft = 6;
+			colorLeft = numColors;
 		}
 	}
 	
-	colorLeft = 6;
+	colorLeft = numColors;
 }

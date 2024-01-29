@@ -144,3 +144,22 @@ a:link {
 a:visited {
 	color: var(--a-visited-color);
 }
+
+/* https://www.w3.org/Style/Examples/007/color-bullets.en.html */
+ul {
+	list-style: none;
+}
+ul li::before {
+	content: "\2022";
+	color: var(--font-color);
+	font-weight: bold;
+	display: inline-block; 
+	width: 1em;
+	margin-left: -1em;
+}
+ul li {
+	font-family: 'Verdana', sans-serif;
+	font-size: 1.2em;
+	color: var(--font-color);
+}
+}
