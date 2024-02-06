@@ -71,7 +71,7 @@ We can prove statements $P(\alpha)$ for ordinals $\alpha$ by completing one step
 \begin{enumerate}[label=(\arabic*)]
 	\item Given an ordinal $\beta$ and given $P(\alpha)$ for all $\alpha<\beta$, prove $P(\beta)$.
 \end{enumerate}
-This is known as ``transfinite induction.'' Actually, the above three steps can be condensed into one step, and this one step and be split into three cases, depending on whether $\beta$ is $0$, a successor ordinal, or a limit ordinal.
+This is known as ``transfinite induction.'' Actually, the above three steps can be condensed into one step, and this one step can be split into three cases, depending on whether $\beta$ is $0$, a successor ordinal, or a limit ordinal.
 
 The collection of ordinals is a certain proper class. See section 2 of \cite{Chua} or chapter 6 of \cite{HrbacekJech} for the details. For this talk, we don't need to know all the details about what ordinals are. We just need to trust that transfinite recursion works, and that the following five facts are true.
 
@@ -82,7 +82,7 @@ The collection of ordinals is a certain proper class. See section 2 of \cite{Chu
 	The collection of ordinals is well-ordered by $\in$. Here, we sometimes denote $\alpha\in\beta$ by $\alpha<\beta$.
 \end{fact}
 \begin{fact}
-	Each ordinal $\alpha$ has an immediate successor $S(\alpha)$, i.e. $\alpha<\beta$ implies $\alpha <S(\alpha)\leq\beta$.
+	Each ordinal $\alpha$ has an immediate successor $S(\alpha)$, so $\alpha<\beta$ implies $\alpha <S(\alpha)\leq\beta$.
 \end{fact}
 \begin{fact}
 	If an ordinal $\alpha$ is not $0$ and is not the immediate successor of any ordinal, then $\alpha$ is a limit ordinal.
@@ -110,7 +110,7 @@ Now, we state the necessary results from linear algebra. For a more thorough rev
 We are now ready to begin the main result of this talk. For the first direction, the idea is to adjoin elements to a linearly independent set until it becomes a basis. Transfinite recursion allows us to adjoin infinitely many elements if necessary.
 
 \begin{axiom}[Choice]
-	Suppose $\mathcal{F}$ is a nonempty family of nonempty sets, i.e. $\mathcal{F}$ is a nonempty set and $X$ is a nonempty set for every $X\in\mathcal{F}$. Then $\prod_{X\in\mathcal{F}} X$ is nonempty, i.e. there exists a map $f: \mathcal{F}\rightarrow\bigcup\mathcal{F}$ such that $f(X)\in X$ for every $X\in\mathcal{F}$.
+	Suppose $\mathcal{F}$ is a family of nonempty sets, i.e. $\mathcal{F}$ is a set and $X$ is a nonempty set for every $X\in\mathcal{F}$. Then $\prod_{X\in\mathcal{F}} X$ is nonempty, i.e. there exists a map $f: \mathcal{F}\rightarrow\bigcup\mathcal{F}$ such that $f(X)\in X$ for every $X\in\mathcal{F}$.
 \end{axiom}
 
 \begin{theorem}
@@ -121,12 +121,12 @@ Let $V$ be a vector space. According to Choice, we can let
 \[
 	f: \mathcal{P}(V)\setminus\{\emptyset\}\rightarrow V
 \]
-be a map such that $f(X)\in X$ for every $X\in\mathcal{P}(V)\setminus\{\emptyset\}$. Note that the definition of vector space implies that $V$ is nonempty, whence $\mathcal{P}(V)\setminus\{\emptyset\}$ is nonempty.
+be a map such that $f(X)\in X$ for every $X\in\mathcal{P}(V)\setminus\{\emptyset\}$.
 
-Define $I_\alpha$ for all ordinals $\alpha$ by transfinite recursion as follows. Let $I_0 = \emptyset$. If $I_\alpha$ has been defined, then let
+Define $I_\alpha$ for all ordinals $\alpha$ by transfinite recursion as follows. Let $I_0 = \emptyset$. If $I_\alpha$ has been defined, let
 \[
 	I_{S(\alpha)} = \left\{ \begin{array}{ll}
-		I_\alpha &\text{ if } \spn(I_\alpha) = V \\
+		I_\alpha &\text{ if } \spn I_\alpha = V \\
 		I_\alpha\cup\{f(V\setminus\spn(I_\alpha))\} &\text{ if } \spn I_\alpha \subsetneq V
 	\end{array}\right.\,.
 \]
@@ -136,7 +136,7 @@ Suppose for transfinite induction that $\beta$ is an ordinal such that $I_\alpha
 \[
 	\alpha = \max\{\min\{\alpha\in\beta\mid t\in I_\alpha\} \mid t\in T\}\,\text{),}
 \]
-whence $T$ is linearly independent by Result 1 and $I_\beta$ is linearly independent by Result 1. Otherwise, $\beta = S(\alpha)$ for some $\alpha$. If $I_\beta = I_\alpha$, then $I_\beta$ is immediately linearly independent. Otherwise, $I_\beta = I_\alpha\cup\{f(V\setminus\spn I_\alpha)\}$ is linearly independent by Result 2. It follows that $I_\alpha$ is linearly independent for all ordinals $\alpha$.
+whence $T$ is linearly independent and $I_\beta$ is linearly independent by Result 1. Otherwise, $\beta = S(\alpha)$ for some $\alpha$. If $I_\beta = I_\alpha$, then $I_\beta$ is immediately linearly independent. Otherwise, $I_\beta = I_\alpha\cup\{f(V\setminus\spn I_\alpha)\}$ is linearly independent by Result 2. It follows that $I_\alpha$ is linearly independent for all ordinals $\alpha$.
 
 Observe that transfinite induction can be used to show that $\alpha\leq\beta$ implies $I_\alpha\subseteq I_\beta$.
 
@@ -144,12 +144,8 @@ Hartog's Theorem says there is an ordinal $\gamma$ such that there are no inject
 \[
 	I_\alpha\subseteq I_{S(\alpha)}\subseteq I_\beta = I_\alpha
 \]
-and thus $I_\alpha = I_{S(\alpha)}$. If $\spn I_\alpha\subsetneq V$, then $f(V\setminus\spn I_\alpha)\in I_{S(\alpha)}\setminus I_\alpha$, contradicting $I_\alpha = I_{S(\alpha)}$. So, we must have $\spn I_\alpha = V$. Hence $I_\alpha$ is a basis for $V$.
+and thus $I_\alpha = I_{S(\alpha)}$. If $\spn I_\alpha\subsetneq V$, then $f(V\setminus\spn I_\alpha)\in I_{S(\alpha)}\setminus I_\alpha$, contradicting $I_\alpha = I_{S(\alpha)}$. So, we must have $\spn I_\alpha = V$. Then $I_\alpha$ is a basis for $V$.
 \end{proof}
-
-\begin{remark}
-	If $V$ happens to already be well-ordered, then $f$ can be replaced by $\min$ and we can construct a basis for $V$ without using Choice.
-\end{remark}
 
 \begin{remark}
 	The Teichmüller-Tukey lemma along with Result 1 immediately implies that every vector space has a basis. Small modifications can be made to the above proof to yield a proof of the Teichmüller-Tukey lemma from the Axiom of Choice.
@@ -161,8 +157,30 @@ For the other direction, we follow the original proof given in \cite{Blass}.
 	If every vector space has a basis, then the Axiom of Choice holds.
 \end{theorem}
 \begin{proof}
-TODO
+Let $k$ be a field. Suppose $\mathcal{F}$ is a family of pairwise disjoint nonempty sets. Write $\mathcal{F} = \{X_i\mid i\in I\}$. Let $X = \bigcup\mathcal{F}$. Let $k(X)$ be the field of rational functions with variables in $X$ and coefficients in $k$ (to construct polynomials with variables in an arbitrary set, see $\S3$ of chapter $2$ of \cite{Lang}).
+
+For each $i\in I$, define the \emph{i-degree} of a monomial in $k[X]$ to be the sum of the exponents of the elements of $X_i$ in the monomial. Furthermore, say a rational function in $k(X)$ is \emph{$i$-homogenous of degree $d$} if there is an $n\in\mathbb{Z}$ such that all monomials in its denominator have $i$-degree $n$ and all monomials in its numerator have $i$-degree $n+d$.
+
+Let $K$ be the set of rational functions in $k(X)$ which are $i$-homogenous of degree $0$ for all $i\in I$. Observe that $K$ is a subfield of $k(X)$, so $k(X)$ is a vector space over $K$. Let $\mathscr{B}$ be a basis for $\spn_K(X)$.
+
+For each $i\in I$, construct $B_i$ as follows. For each $x\in X_i\subseteq\spn\mathscr{B}$, write
+\[
+	x = \sum_{b\in\mathscr{B}} \alpha_{b,x} b\,,
+\]
+where all but finitely many $\alpha_{b,x}$ are $0$. If $y,z\in X_i$, then
+\[
+	\sum_{b\in\mathscr{B}} \frac{1}{y}\alpha_{b,y} b = \frac{1}{y}y = 1 = \frac{1}{z}z = \sum_{b\in\mathscr{B}} \frac{1}{z}\alpha_{b,z} b\,,
+\]
+whence $\frac{1}{y}\alpha_{b,y} = \frac{1}{z}\alpha_{b,z}$ for all $b\in\mathscr{B}$. Hence, for each $b\in\mathscr{B}$, we can let $\beta_{b,i}$ denote the element of $k(X)$ which satisfies $\beta_{b,i} = \frac{1}{x}\alpha_{b,x}$ for all $x\in X_i$. Let $B_i = \{b\in\mathscr{B} \mid \beta_{b,i}\neq 0\}$. Note that $B_i$ is finite and nonempty. Furthermore, $\beta_{b,i}$ is $i$-homogenous of degree $-1$ for each $b\in B_i$.
+
+Recall that rational functions can be written in a reduced form. Briefly, each $h\in k(X)$ has many possible representations $\frac{f}{g}$ with $f,g\in k[X]$. We can't wave the magic wand of Choice and immediately get one representation for every element of $k(X)$, since we are currently trying to deduce Choice. Instead, the set of polynomials which can possibly be the denominator of a particular $h\in k(X)$ is an ideal of $k[X]$, so, since $k[X]$ is a PID, we can find a unique reduced form for $h$.
+
+For each $i\in I$ and $b\in B_i$, let $F_{b,i}$ be the set of elements of $X_i$ which appear in the denominator of $\beta_{b,i}$ in its reduced form. Then $F_{b,i}\neq\emptyset$ since $\beta_{b,i}$ is $i$-homogenous of degree $-1$.
+
+For each $i\in I$, let $F_i = \bigcup_{b\in B_i} F_{b,i}$. Then $\emptyset\neq F_i\subseteq X_i$, since it is a nonempty finite union of nonempty finite subsets of $X_i$.
 \end{proof}
+
+%https://www.researchgate.net/publication/266924213_Some_new_algebraic_equivalents_of_the_axiom_of_choice
 
 \clearpage
 
@@ -180,7 +198,7 @@ TODO
 	
 	\bibitem{Kuang} Kuang, Qiangru. ``Linear Algebra.'' \href{https://qk206.user.srcf.net/notes/linear_algebra.pdf}{\nolinkurl{qk206.user.srcf.net/notes/linear_algebra.pdf}}
 	
-	\bibitem{Lang} Lang, Serge. \emph{Algebra}, Third edition.
+	\bibitem{Lang} Lang, Serge. ``Algebra,'' Third Edition.
 \end{thebibliography}
 
 \end{document}

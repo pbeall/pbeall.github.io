@@ -1,0 +1,123 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+
+\usepackage[right=1.5in,top=1in,left=1.5in,bottom=1in]{geometry}
+
+\usepackage{enumitem}
+
+\usepackage[all]{xy}
+
+\usepackage{url}
+
+\let\emptyset\varnothing
+
+%\usepackage{fancyhdr}\usepackage{lastpage}\pagestyle{fancy}
+%\renewcommand{\headrulewidth}{0pt}
+%\fancyfoot[C]{Page \thepage \hspace{1pt} of \pageref{LastPage}}
+
+\begin{document}
+
+\newpage
+
+\noindent\textsc{\hfill Constructing $\mathbb{Z}$ \hfill} \\
+\noindent\textsc{9 November 2023\hfill P. Beall}\vspace{0.5em}
+\hrule\vspace{0.5em}
+\begin{abstract}
+	Integers have applications in some areas of math. The integers form the smallest group containing the natural numbers. I will present a construction of the integers from the naturals, and if time permits, I will briefly outline a construction of the rationals from the integers.
+\end{abstract}
+
+Let $\mathbb{N} = \{0,1,2,\dots\}$ be the set of natural numbers. We hopefully know what natural numbers are, and how to add them. The natural numbers have various properties, such as associativity,
+\[
+	(p+q) + r = p + (q+r)\qquad\text{for all } p,q,r\in\mathbb{N}\,,
+\]
+and cancellation,
+\[
+	p + q = p + r \quad\text{implies}\quad q=r\qquad\text{for all } p,q,r\in\mathbb{N}\,.
+\]
+See e.g. chapter 4 of \cite{Enderton} for a construction of $\mathbb{N}$. Given $\mathbb{N}$, we will now construct $\mathbb{Z}$. Modulo small modifications, this is actually a construction of an abelian group given a commutative monoid.
+
+Define a relation $\sim$ on $\mathbb{N}\times\mathbb{N}$ by
+\[
+	(m,n)\sim (p,q) \quad\text{ if and only if }\quad m+q = n+p\,.
+\]
+Suppose $(m,n), (p,q), (s,t)\in\mathbb{N}\times\mathbb{N}$ and $(m,n)\sim(p,q)$ and $(p,q)\sim (s,t)$. Since $m+n=m+n$,
+\[
+	(m,n)\sim(m,n)
+\]
+and $\sim$ is reflexive. Since $m+q=n+p$, we have $n+p=m+q$ and thus
+\[
+	(p,q)\sim(m,n)\,,
+\]
+so $\sim$ is symmetric. Since $m+q=n+p$ and $p+t=q+s$, we have
+\begin{align*}
+	(m+q) + (p+t) &= (n+p) + (q+s) \\
+	q+p+m+t &= q+p+n+s \\
+	m+t &= n+s
+\end{align*}
+and thus $(m,n)\sim (s,t)$, so $\sim$ is transitive.
+
+It follows that $\sim$ is an equivalence relation, so it induces a partition of $\mathbb{N}\times\mathbb{N}$. For $(m,n)\in\mathbb{N}\times\mathbb{N}$, let $[m,n]$ denote the equivalence class of $(m,n)$. Let
+\[
+	\mathbb{Z} = {\mathbb{N}\times\mathbb{N}/\sim} = \{[m,n] \mid (m,n)\in\mathbb{N}\times\mathbb{N}\}\,.
+\]
+Define the binary operation $+$ on $\mathbb{Z}$ by
+\[
+	[m,n] + [p,q] = [m+p, n+q]
+\]
+for all $m,n,p,q\in\mathbb{N}$. If $[m,n] = [m',n']$ and $[p,q]=[p',q']$, then $m+n'=n+m'$ and $p+q'=q+p'$, whence
+\begin{align*}
+	(m+n') + (p+q')&= (n+m') + (q+p') \\
+	(m+p) + (n'+q') &= (n+q) + (m'+p')
+\end{align*}
+and $[m+p,n+q] = [m'+p',n'+q']$. It follows that $+$ is well-defined in $\mathbb{Z}$.
+
+We can verify that $\mathbb{Z}$ with $+$ has the various properties we want it to have. For instance, associativity in $\mathbb{Z}$ follows from associativity in $\mathbb{N}$: if $[m,n],[p,q],[s,t]\in\mathbb{Z}$, then
+\begin{align*}
+	([m,n] + [p,q]) + [s,t] &= [m+p, n+q] + [s,t] \\
+	&= [(m+p)+s, (n+q)+t] \\
+	&= [m+(p+s), n+(q+t)] \\
+	&= [m,n] + [p+s, q+t] \\
+	&= [m,n] + ([p,q] + [s,t])\,.
+\end{align*}
+ Observe that $[0,0]$ is the additive identity of $\mathbb{Z}$. Unlike $\mathbb{N}$, every element of $\mathbb{Z}$ has an additive inverse. Suppose $[m,n]\in\mathbb{Z}$. We have $[m+n,m+n] = [0,0]$ since $m+n+0 = m+n+0$. Since
+\[
+	[m,n] + [n,m] = [m+n,m+n] = [0,0]\,,
+\]
+$[n,m]$ is the additive inverse of $[m,n]$ by definition and commutativity.
+
+We can write $m$ for $[m,0]$, and write $-m$ for $[0,m]$. Indeed, the map $\iota: \mathbb{N}\rightarrow\mathbb{Z}$ given by $m\mapsto [m,0]$ is an injective monoid homomorphism, and $[0,m]$ is the additive inverse of $[m,0]$.
+
+The group $\mathbb{Z}$ with the map $\iota$ has the following universal property. For any group $G$ and monoid homomorphism $f: \mathbb{N}\rightarrow G$, there is a unique group homomorphism $\overline{f}: \mathbb{Z}\rightarrow G$ such that $f = \overline{f}\circ \iota$.
+\[\xymatrix{
+	\mathbb{Z} \ar@{.}[r]^{\overline{f}} & G \\
+	\mathbb{N} \ar[u]^\iota \ar[ur]_f
+}\]
+Many groups contain an isomorphic copy of $\mathbb{N}$, but this universal property says $\mathbb{Z}$ is the smallest one, since any group containing an isomorphic copy of $\mathbb{N}$ also contains an isomorphic copy of $\mathbb{Z}$.
+
+Similarly, the ring $\mathbb{Q}$ is the smallest commutative ring with $1$ containing an isomorphic copy of $\mathbb{Z}$: for any commutative ring $R$ with identity and injective ring homomorphism $\phi: \mathbb{Z}\rightarrow R$ such that $\phi(q)$ is a unit whenever $q\neq 0$, there is a injective homomorphism $\overline{\phi}: \mathbb{Q}\rightarrow R$ such that $\overline{\phi}\vert_{\mathbb{Z}} = \phi$.
+\[\xymatrix{
+	\mathbb{Q} \ar@{.}[r]^{\overline{\phi}} & R \\
+	\mathbb{Z} \ar[u] \ar[ur]_{\phi}
+}\]
+
+Multiplication in $\mathbb{Z}$ can be defined in terms of multiplication in $\mathbb{N}$, so $\mathbb{Z}$ is a ring. Given $\mathbb{Z}$, we can construct $\mathbb{Q}$. Let $\mathbb{Q}$ be the set of equivalence classes induced by the equivalence relation $\approx$ on $\mathbb{Z}\times\mathbb{Z}$ defined by
+\[
+	(m,n) \approx (p,q) \quad\text{ if and only if }\quad mq = np\,.
+\]
+Then, we can define the binary operations on $\mathbb{Q}$ in terms of the binary operations on $\mathbb{Z}$, and verify that any desired properties hold.
+
+\clearpage
+\pagestyle{plain}
+
+\bibliographystyle{amsplain}
+\begin{thebibliography}{1}
+	\bibitem{DummitFoote} D.S. Dummit and R.M. Foote. \emph{Abstract Algebra}, 3rd edition.
+	
+	\bibitem{Enderton}
+	H. B. Enderton, \emph{Elements of set theory}. Academic Press, New York, NY, 1977.
+\end{thebibliography}
+
+\end{document}
