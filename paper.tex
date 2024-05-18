@@ -1,0 +1,400 @@
+\documentclass[12pt]{article}
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+
+\usepackage[right=1in,top=1in,left=1in,bottom=1in]{geometry}
+
+\usepackage[all]{xy}
+
+%https://latexdraw.com/predefined-latex-colors-dvipsnames/
+\usepackage[dvipsnames]{xcolor}
+\theoremstyle{definition}
+\newtheorem*{remark}{\color{Sepia} Remark}
+\newtheorem*{convention}{\color{teal} Convention}
+\newtheorem*{example}{\color{teal} Example}
+\newtheorem*{definition}{\color{OliveGreen} Definition}
+\newtheorem*{proposition}{\color{blue} Proposition}
+\newtheorem*{result}{\color{blue} Result}
+\newtheorem*{lemma}{\color{blue} Lemma}
+\newtheorem*{theorem}{\color{blue} Theorem}
+\newtheorem*{caution}{\color{Sepia} Caution}
+
+\usepackage{multicol}
+
+\usepackage{sectsty}
+\sectionfont{\fontsize{12}{15}\selectfont\centering}
+%\usepackage{titlesec}
+%\titlespacing\section{0pt}{\parskip}{-\parskip}
+
+\usepackage{fancyhdr}\usepackage{lastpage}\pagestyle{fancy}
+\renewcommand{\headrulewidth}{0pt}
+\fancyfoot[C]{Page \thepage \hspace{1pt} of \pageref{LastPage}}
+\fancyhead[L,R]{}
+
+\usepackage{enumitem}
+
+\usepackage{hyperref}
+\newcommand\conciseLink[1]{\href{https://#1}{\nolinkurl{#1}}}
+
+%\setcounter{section}{-1}
+
+\begin{document}\begin{multicols*}{2}\pagestyle{fancy}
+
+\section*{Boolean Lattice}
+
+A Boolean lattice is a relation satisfying a long list of conditions. This can be decomposed into the following ascending chain of definitions.
+
+\begin{definition}
+	A \emph{preorder}\footnote{Equivalently, a preorder is a category in which, for each pair of objects $x,y$, there is at most one morphism from $x$ to $y$. Then, meets are products and joins are coproducts.} is a relation $\leq$ that is reflexive and transitive.
+	
+	A \emph{partial order} is a preorder $\leq$ that is antisymmetric, i.e $x\leq y\leq x$ implies $x=y$.
+	
+	A \emph{lattice} is a partial order in which every pair of elements $x,y$ have a meet $x\land y := \inf\{x,y\}$ and a join $x\lor y := \sup\{x,y\}$. A \emph{bounded} lattice is a lattice which has a minimum $\hat 0$ and a maximum $\hat 1$.
+	
+	A \emph{distributive lattice} is a lattice $D$ in which
+	\[
+		x\lor(y\land z) = (x\lor y)\land(x\lor z)
+	\]
+	and
+	\[
+		x\land(y\lor z) = (x\land y)\lor(x\land z)
+	\]
+	for all $x,y,z\in D$.
+	
+	A \emph{complement} of an element $x$ of a bounded lattice $L$ is an $x'\in L$ such that $x\land x' = \hat0$ and $x\lor x' = \hat1$. A \emph{Boolean lattice} is a bounded distributive lattice in which every element has a unique complement.
+\end{definition}
+\begin{example}
+	Taking the power set of a set $X$ yields a Boolean lattice $(2^X, \subseteq)$. Meets are intersections, joins are unions, and the complement of a $Y\subseteq X$ is $X\setminus Y$.
+\end{example}
+\begin{example}
+	The lattice $N_5$ is given below.
+	\[\xymatrix{
+		& \hat1 & \\
+		z\ar@{-}[ur] && \\
+		y\ar@{-}[u] && x\ar@{-}[uul] \\
+		& \hat0\ar@{-}[ul]\ar@{-}[ur] &
+	}\]
+ 	Here,
+ 	\[
+ 		x\land y = \hat0 = x\land z\phantom{\,,}
+ 	\]
+ 	and
+ 	\[
+ 		x\lor y = \hat1 = x\lor y\,,
+ 	\]
+ 	so $y,z$ are both complements of $x$.
+\end{example}
+\begin{example}
+	The lattice $M_3$ is given below.
+	\[\xymatrix{
+		& \hat1 & \\
+		\circ\ar@{-}[ur] & \circ\ar@{-}[u] & \circ\ar@{-}[ul] \\
+		& \hat0\ar@{-}[ul]\ar@{-}[u]\ar@{-}[ur] &
+	}\]
+	A lattice is distributive if and only if it has no sublattices isomorphic to $N_5$ or $M_3$. So, the lattice below is distributive.
+	\[\xymatrix{
+		& 4 & \\
+		2\ar@{-}[ur] && 3 \\
+		& 1\ar@{-}[ul]\ar@{-}[ur] &
+	}\]
+	But, this lattice is not Boolean since $2\land x = 1$ implies $x=1$ and hence $2\lor x = 2 \neq 4$.
+\end{example}
+\begin{example}
+	The distributive lattice of positive divisors of an $n\in\mathbb{Z}^+$ ordered by divisibility is Boolean if and only if $n$ is squarefree.
+\end{example}
+\begin{example}
+	The two-element lattice $\{0,1\}$ with $0<1$ is Boolean. The complement of a $x\in\{0,1\}$ is $1-x$.
+\end{example}
+
+The chain at the beginning of this section also has two branches we will use.
+
+\begin{definition}
+	An \emph{equivalence relation} is a preorder $\equiv$ that is symmetric, i.e. $x\equiv y$ implies $y\equiv x$.
+
+	A \emph{linear order} is a partial order $\leq$ such that every pair of elements $x,y$ are comparable, i.e. $x\leq y$ or $y\leq x$.
+\end{definition}
+
+\section*{Formulas}
+
+For each set $A$, we can construct the set $W_A$ of well-formed formulas on $A$ as follows. Let $A$ be a set which is arbitrary unless otherwise specified.
+
+Let $C=\{\neg,\lor,\land,\rightarrow,(,)\}$ be a set of $6$ currently meaningless symbols. Let $S$ be the set of strings on $A\cup C$. Define maps $\varepsilon_\neg: S\rightarrow S$ and $\varepsilon_\lor,\varepsilon_\land,\varepsilon_\rightarrow: S\times S\rightarrow S$ by
+\begin{align*}
+	\varepsilon_\neg(\psi) &= \neg(\psi) \\
+	\varepsilon_\lor(\phi,\psi) &= (\phi\lor\psi) \\
+	\varepsilon_\land(\phi,\psi) &= (\phi\land\psi) \\
+	\varepsilon_\rightarrow(\phi,\psi) &= (\phi\rightarrow\psi)
+\end{align*}
+for all $\phi,\psi\in S$. Inductively define subsets $W_i$ of $S$ for $i\in\mathbb{Z}^+$ as follows. Let $W_1 = A$. If $i\in\mathbb{Z}^+$ such that $W_i$ has been defined, set
+\[
+	W_{i+1} = W_i\cup \varepsilon_\neg(W_i)\cup\bigcup_{\oplus\in\{\lor,\land,\rightarrow\}}\varepsilon_\oplus(W_i\times W_i)\,.
+\]
+Let $W_A = \bigcup_{i\in\mathbb{Z}^+} W_i$. The elements of $A$ will be called \emph{atoms}, and the elements of $W_A$ will be called \emph{well-formed formulas}. Elements of $S\setminus W_A$ such as $\rightarrow)((\land\neg$ are indeed ill-formed. Next, we see how to assign some meaning to the elements of $W_A$.
+
+\begin{definition}
+	A map $v: W_A\rightarrow \{0,1\}$ is a \emph{valuation} if and only if
+	\begin{align*}
+		v(\neg\phi) &= 1 - v(\phi) \\
+		v(\phi\lor\psi) &= \max\{v(\phi),v(\psi)\} \\
+		v(\phi\land\psi) &= \min\{v(\phi),v(\psi)\} \\
+		v(\phi\rightarrow\psi) &= \max\{1-v(\phi),v(\psi)\}
+	\end{align*}
+	for all $\phi,\psi\in W_A$.
+\end{definition}
+So, a valuation is a map which assigns a truth-value to each well-formed formula in a way that respects the connectives.
+
+Recall that vector spaces are free over their bases. If $V$ is a vector space with basis $B$, and $U$ is another vector space, then any map $\alpha: B\rightarrow U$ can be uniquely extended to a linear map $\overline{\alpha}: V\rightarrow U$.
+\[\xymatrix{
+	B \ar[r]^-\alpha\ar[d] & U \\
+	V \ar@{.>}[ur]_{\overline{\alpha}}
+}\]
+Similarly, the set of well-formed formulas $W_A$ is free over the atoms $A$.
+\begin{proposition}
+Suppose $v: A\rightarrow\{0,1\}$ is a map. Then, there exists a unique valuation $\overline{v}: W_A\rightarrow \{0,1\}$ such that $\overline{v}(a) = v(a)$ for all $a\in A$.
+\[\xymatrix{
+	A \ar[r]^-v\ar[d] & \{0,1\} \\
+	W_A \ar@{.>}[ur]_{\overline{v}}
+}\]
+\end{proposition}
+
+Now, let's see an example of how well-formed formulas can be used to express useful things. Let $P$ be a set. We have the following bijective correspondence between the relations on $P$ and the valuations $W_{P\times P}\rightarrow\{0,1\}$. Using the previous proposition, for each relation $\sim$ on $P$, we can let $v_{\sim}: W_{P\times P}\rightarrow\{0,1\}$ be the valuation with $v_{\sim}((y,z))=1$ if and only if $y\sim z$. Then \[{\sim}\mapsto v_{\sim}\] is a bijection from the set of relations on $P$ to the set of valuations $W_{P\times P}\rightarrow\{0,1\}$. If relations on $P$ are viewed as subsets of $P\times P$, then the inverse bijection is
+\[
+	v \mapsto v^{-1}(\{1\})\cap X\times X\,.
+\]
+Observe that a relation $\sim$ on $P$ is reflexive if and only if
+\[
+	1 = v_{\sim}( (p,p) )
+\]
+for all $p\in P$. A relation $\sim$ on $P$ is transitive if and only if
+\[
+	 1 = v_{\sim}( ((p,q)\land(q,r))\rightarrow(p,r) )
+\]
+for all $p,q,r\in P$. Indeed, if $p,q,r\in P$ with $p\sim q$ and $q\sim r$ and
+\[
+	1 = v_{\sim}( ((p,q)\land(q,r))\rightarrow(p,r) )\,,
+\]
+then $v(p,q)=v(q,r)=1$ and
+\begin{align*}
+	1 &= \max\{1 - \min\{v(p,q), v(q,r)\}, v(p,r)\} \\
+	&= \max\{0, v(p,r)\}\,,
+\end{align*}
+whence $v(p,r)=1$ and $p\sim r$. If $\sim$ is transitive and $p,q,r\in P$ and $v(p,r)=0$, then $v(p,q)=0$ or $v(q,r)=0$, so
+\begin{align*}
+	v_{\sim}&( ((p,q)\land(q,r))\rightarrow(p,r) ) \\
+	&= \max\{1 - \min\{v(p,q), v(q,r)\}, 0\} \\
+	&= 1 - \min\{v(p,q), v(q,r)\} \\
+	&= 1\,.
+\end{align*}
+Similarly for antisymmetry and comparability. Let
+\begin{align*}
+	T = &\{(p,q)\in P\times P \mid p=q\} \\
+	&\cup \{((p,q)\land(q,r))\rightarrow(p,r) \mid p,q,r\in P\} \\
+	&\cup \{\neg((p,q)\land(q,p)) \mid p,q\in P\text{ and }p\neq q\} \\
+	&\cup \{(p,q)\lor(q,p) \mid p,q\in P\}\,.
+\end{align*}
+ So, a relation $\sim$ on $P$ is a linear order if and only if $1 = \inf v_{\sim}(T)$.
+
+\section*{Preorder to Partial Order}
+
+The following is a natural\footnote{This way of turning preorders into partial orders is functorial, and is left adjoint to the forgetful functor from the category of partial orders to the category of preorders.} way to obtain a partial order from a preorder. Suppose $\leq$ is a preorder on a set $X$. Define an equivalence relation $\equiv$ on $X$ by $x\equiv y$ if and only if $x\leq y$ and $y\leq x$. For each $x\in X$, let
+\[
+[x] = \{y\in X \mid y\equiv x\}
+\]
+denote the equivalence class of $x$. Let
+\[
+X^\ast = (X/\equiv) = \{[x]\mid x\in X\}
+\]
+denote the quotient of $X$ by $\equiv$. Define the relation $\leq^\ast$ on $X^\ast$ by $[x]\leq^\ast[y]$ if and only if $x\leq y$.%Is this a functor adjoint to a forgetful functor?
+\begin{proposition}
+	The relation $\equiv$ is indeed an equivalence relation. The relation $\leq^\ast$ is a well-defined partial order.
+\end{proposition}
+\begin{proof}
+	The relation $\equiv$ is reflexive and transitive since $\leq$ is reflexive and transitive. The relation $\equiv$ is symmetric since its definition is symmetric.
+	
+	If $a\equiv y\leq z\equiv b$, then $a\leq y\leq z\leq b$ and $a\leq b$. The relation $\leq^\ast$ is a partial order since $\leq$ is a partial order.
+\end{proof}
+
+Define a relation $\vDash$ on $W_A$ by $\phi\vDash\psi$ if and only if $v(\phi)\leq v(\psi)$ for all valuations $v$. Equivalently, $\phi\vDash\psi$ if and only if, for all valuations $v$, we have $v(\phi)=1$ implies $v(\psi)=1$.
+
+\begin{proposition}
+	The relation $\vDash$ is a preorder.
+\end{proposition}
+\begin{proof}
+	Suppose $\phi\in W_A$. Since $v(\phi)\leq v(\phi)$ for all valuations $v$, we have $\phi\vDash\phi$.
+	
+	Suppose $\phi,\psi,\chi\in W_A$ with $\phi\vDash\psi$ and $\psi\vDash\chi$. If $v$ is a valuation, then $v(\phi)\leq v(\psi)$ and $v(\psi)\leq v(\chi)$, and thus $v(\phi)\leq v(\chi)$. So $\phi\vDash\chi$.
+\end{proof}
+
+So, we have a partial order $\vDash^\ast$ with $\phi\vDash\psi$ if and only if $[\phi]\vDash^\ast[\psi]$. Note that $v(\phi) = v(\psi)$ for all valuations $v$ if and only if $[\phi] = [\psi]$.
+
+\begin{proposition}
+	The partial order $\vDash^\ast$ is a Boolean lattice.
+\end{proposition}
+\begin{proof}
+	Suppose $[\phi],[\psi]\in W_A^\ast$. For all valuations $v$, we have
+	\[
+		v(\phi)\leq\max\{v(\phi), v(\psi)\} = v(\phi\lor\psi)\,,
+	\]
+	so $\phi\vDash \phi\lor\psi$. Hence $[\phi]\vDash^\ast[\phi\lor\psi]$. Similarly, $[\psi]\vDash^\ast[\phi\lor\psi]$. So $[\phi\lor\psi]$ is a common upper bound for $[\phi]$ and $[\psi]$.
+	
+	Suppose $[\chi]\in W_A^\ast$ is another common upper bound for $[\phi]$ and $[\psi]$. Then, for all valuations $v$, we have $v(\phi)\leq v(\chi)$ and $v(\psi)\leq v(\chi)$, so
+	\[
+		v(\phi\lor\psi) = \max\{v(\phi), v(\psi)\} \leq v(\chi)\,.
+	\]
+	Hence $\phi\lor\psi\vDash \chi$, i.e. $[\phi\lor\psi] \vDash^\ast [\chi]$.
+	
+	So, $[\phi\lor\psi]$ is the least upper bound of $[\phi]$ and $[\psi]$, i.e. \[[\phi]\lor[\psi] = [\phi\lor\psi]\,.\] Similarly, \[[\phi]\land[\psi] = [\phi\land\psi]\,.\] So, $\vDash^\ast$ is a lattice. Also, this shows that it makes sense to use the same symbols for disjunction and conjunction for logic as for join and meet for orders.
+	
+	A \emph{tautology} is a $\phi\in W_A$ such that $v(\phi)=1$ for all valuations $v$. Pick an $a\in W_A$ and set $\top = (a\lor(\neg a))$. For all valuations $v$, we have
+	\begin{align*}
+		v(\top) &= v(a\lor(\neg a)) \\
+		&= \max\{v(a), v(\neg a)\} \\
+		&= \max\{v(a), 1 - v(a)\} \\
+		&= 1
+	\end{align*}
+	So, for all $\phi\in W_A$, we have
+	\[
+		v(\phi) \leq 1 = v(\top)
+	\]
+	for all valuations $v$, and thus $\phi\vDash\top$, i.e. $[\phi]\vDash^\ast[\top]$. So, $[\top]$ is the maximum element of $W_A^\ast$.
+	
+	A \emph{contradiction} is a $\phi\in W_A$ such that $v(\phi)=0$ for all valuations $v$. Pick an $a\in W_A$, set $\bot = (a\land(\neg a))$, and observe that similarly $\bot$ is a contradiction and hence $[\bot]$ is the minimum element of $W_A^\ast$.
+	
+	Suppose $[\phi]\in W_A^\ast$. For all valuations $v$, we have
+	\begin{align*}
+		v(\phi\lor(\neg\phi)) &= \max\{v(\phi), v(\neg \phi)\} \\
+		&= \max\{v(\phi), 1 - v(\phi)\} \\
+		&= 1 \\
+		&= v(\top)\,.
+	\end{align*}
+	It follows that \[[\phi]\lor[\neg\phi] = [\phi\lor(\neg\phi)] = [\top]\,,\] Similarly,
+	\[
+		[\phi]\land[\neg\phi] = [\bot]\,.
+	\]
+	So $[\neg\phi]$ is a complement of $[\phi]$. Suppose $[\psi]\in W^\ast$ is another complement of $[\phi]$. Then
+	\[
+		[\phi\lor\psi] = [\phi]\lor[\psi] = [\top]\,.
+	\]
+	Suppose $v$ is a valuation. Then
+	\begin{align*}
+		1 &= v(\top) \\
+		&= v(\phi\lor\psi) \\
+		&= \max\{w(\phi), w(\psi)\}\,.
+	\end{align*}
+	If $v(\phi)=0$, then this implies \[v(\psi) = 1 = 1-0 = v(\neg\phi)\,.\] Otherwise, if $v(\phi)=1$, consider instead
+	\begin{align*}
+		0 &= v(\bot) \\
+		&= v(\phi\land\psi) \\
+		&= \min\{v(\phi), v(\psi)\}\,,
+	\end{align*}
+	whence
+	\[v(\psi)=0 = 1-1 = v(\neg\phi)\,.\] So $v(\psi) = v(\neg\phi)$ for all valuations $v$, i.e. $[\psi] = [\neg\phi]$. So, the complement of $[\phi]$ is unique.
+\end{proof}
+
+We now have a counterexample to the infinite extension of the following theorem.
+\begin{theorem}
+	Each finite Boolean lattice is isomorphic to $(2^{[n]}, \subseteq)$ for some $n\in\mathbb{Z}^+\cup\{0\}$.
+\end{theorem}
+Recall that Cantor's Theorem says that if $X$ is a set, then there are no injections $2^X\rightarrow X$. In particular, the powerset of a set is either finite or uncountable. If $A$ is chosen to be countably infinite, then the Boolean lattice $W_A^\ast$ is countably infinite and hence not isomorphic to a powerset lattice.
+
+\section*{Partial Order to Linear Order}
+
+\begin{definition}
+	A subset $S\subseteq W_A$ is \emph{satisfiable} if and only if there exists a valuation $v$ such that $\inf v(S) = 1$, i.e. such that $v(\phi)=1$ for all $\phi\in S$.
+\end{definition}
+
+\begin{example}
+	Suppose $a\in A$. Then $\{a, (\neg a)\}$ is not satisfiable since, if $v$ is a valuation with $v(a) = 1$, then $v(\neg a) = 1-1 = 0 \neq 1$.
+\end{example}
+\iffalse\begin{example}
+	Suppose $a,b,c\in A$ are distinct. Let $v$ be a valuation with $v(a)=v(b)=1$ and $v(c)=0$. Then
+	\begin{align*}
+		v(a\rightarrow b) &= \max\{1 - v(a), v(b)\} \\
+		&= \max\{0, 1\} \\
+		&= 1
+	\end{align*}
+	and
+	\begin{align*}
+		v(b\rightarrow(\neg c)) \\
+		&= \max\{1 - v(b), v(\neg c)\} \\
+		&= \max\{0,1\} \\
+		&= 1\,.
+	\end{align*}
+	So, $v$ shows that
+	\[
+	\{a, (a\rightarrow b), (b\rightarrow(\neg c))\}
+	\]
+	is satisfiable, although there are other valuations not sending all three of these to $1$.
+\end{example}\fi
+
+\begin{theorem}
+	A subset $S\subseteq W$ is satisfiable if and only if every finite subset of $S$ is satisfiable.
+\end{theorem}
+The theorem above is the Compactness Theorem.\footnote{The name of this theorem makes sense since it can be proved using Tychnoff's theorem.} It can be used to extend various results to the infinite case. Dilworth's Theorem for partial orders of fintie width is one example. Another is the following.
+\begin{definition}
+	A \emph{linear extension} of a partial order $\preceq$ on a set $P$ is a linear order $\leq$ on $P$ such that $p\preceq q$ implies $p\leq q$. If relations on $P$ are viewed as subsets of $P\times P$, then this is the same as saying $\preceq\subseteq\leq$.
+\end{definition}
+\begin{lemma}
+	Every finite partial order has a linear extension.
+\end{lemma}
+\begin{proof}
+	Suppose $(P,\preceq)$ is a partial order, and $y,z\in P$ are incomparable. Define a relation $\leq$ on $P$ by $p\leq q$ if and only if $p\preceq q$, or $p\preceq y$ and $q\preceq z$. So, $\leq$ is an extension of $\preceq$ having fewer pairs of incomparable elements than $\preceq$. Observe that it is possible to use the fact that $\preceq$ is a partial order to check that $\leq$ is a partial order. So, induction can be used to obtain the desired result.
+\end{proof}
+\begin{proposition}
+	Every partial order has a linear extension.
+\end{proposition}
+\begin{proof}
+	Suppose $(P, \preceq)$ is a partial order. Let
+	\begin{align*}
+		S_e &= \{(p,q)\in P\times P \mid p\preceq q\} \\
+		S_t &= \{((p,q)\land(q,r))\rightarrow(p,r) \mid p,q,r\in P\} \\
+		S_a &= \{\neg((p,q)\land(q,p)) \mid p,q\in P\text{ and }p\neq q\} \\
+		S_c &= \{(p,q)\lor(q,p) \mid p,q\in P\}\,.
+	\end{align*}
+	Let
+	\[
+	S = S_e\cup S_t\cup S_a\cup S_c \subseteq W_{P\times P}\,.
+	\]
+	Suppose $F\subseteq S$ is finite. Let $Q\subseteq P$ be the set of consisting of all elements of $P$ appearing in $F$. Then $Q$ is finite since $F$ is finite and the elements of $F$ are finite strings. Then $Q$ is a finite subposet of $P$, so the lemma yields a linear extension $\leq$ of the ordering on $Q$ induced by $\preceq$. Let $v: W_{Q\times Q}\rightarrow\{0,1\}$ be the valuation with $v(r,s)=1$ for $r\leq s$ and $v(r,s)=0$ for $r\not\leq s$.
+	
+	Suppose $(p,q)\in S_e\cap F$. Then $p\preceq q$ and $p,q\in Q$. Since $p\preceq q$ and $\leq$ is an extension of $\preceq$, we have $p\leq q$. Then $v(p,q)=1$. Similarly, since $\leq$ is transitive, antisymmetric, and has comparability, it is possible to show that $v(\phi)=1$ for all $\phi\in (S_t\cup S_a\cup S_c)\cap F$.
+	
+	It follows that $F$ is satisfiable. Using the Compactness Theorem, there exists a valuation $v: W_{P\times P}\rightarrow\{0,1\}$ such that $v(\phi)=1$ for all $\phi\in S$. Using the last paragraph of the second section, the relation $\leq$ on $P$ given by
+	\[
+		p\leq q\quad\text{ if and only if }\quad v(p,q)=1
+	\]
+	for all $p,q\in P$ is a linear extension of $\preceq$.
+\end{proof}
+
+\section*{Video}
+\conciseLink{youtu.be/f3a-o-Vn7Fg}
+
+\iffalse
+\section*{Exercises}
+
+\begin{enumerate}[label=\arabic*.]
+	\item How many linear extensions does an antichain with $n\in\mathbb{N}$ elements have?
+	
+	\item Use the Compactness Theorem to prove Dilworth's Theorem for infinite posets of finite width.
+\end{enumerate}
+
+\section*{Further Reading}
+\begin{enumerate}[label=(\arabic*)]
+	\item \conciseLink{qchu.wordpress.com/2013/12/10/how-to-invent-intuitionistic-logic/}
+	
+	\item S. Vickers, \emph{Topology via Logic}
+\end{enumerate}
+\fi
+
+\bibliographystyle{amsplain}
+\begin{thebibliography}{1}
+	\bibitem{DaveyPriestly} B.A. Davey and H.A. Priestly, \emph{Introduction to Lattices and Order}, first edition
+	
+	\bibitem{Nation} J.B. Nation, \emph{Notes on Lattice Theory}. \conciseLink{math.hawaii.edu/~jb/math618/Nation-LatticeTheory.pdf}
+	
+	\bibitem{Johnstone} P. Johnstone, \emph{Notes on Logic and Set Theory}
+\end{thebibliography}
+
+\end{multicols*}\end{document}

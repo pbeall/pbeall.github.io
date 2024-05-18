@@ -1,0 +1,165 @@
+* { /* there seems to be some default nonzero margins */
+	margin: 0;
+}
+
+body {
+	--entireContent-width: 80%;
+	--topbar-extraHeight: 0em;
+	
+	--content-background: azure;
+	--font-color: black;
+	--a-link-color: blue;
+	--a-visited-color: purple;
+	
+	--themeSwitch-justify-content: flex-end;
+	--themeSwitch-background-color: darkviolet;
+	
+	--course-background-color: bisque;
+}
+.dark {
+	--content-background: black;
+	--font-color: white;
+	--a-link-color: red;
+	--a-visited-color: orange;
+	
+	--themeSwitch-justify-content: flex-start;
+	--themeSwitch-background-color: lightgrey;
+	
+	--course-background-color: darkslategray;
+}
+/*for thin screens, remove background and increase button size*/
+@media screen and (orientation: portrait) {
+  body {
+    --entireContent-width: 100%;
+	--topbar-extraHeight: 1em;
+  }
+}
+
+/* navigation bar. left edge of first button aligned to left edge of main content, all buttons equal size*/
+.topbar {
+	width: 100%;
+	padding-left: calc((100% - var(--entireContent-width))/2);
+	box-sizing: border-box; /*prevent padding from changing the width*/
+	
+	background-color: indigo;
+}
+.topbar div {
+	display: inline-grid;
+	grid-auto-columns: 1fr;
+}
+.topbar div a {
+	grid-row: 1;
+	font-size: 1em;
+	padding: 0.5em;
+	line-height: calc(1em + var(--topbar-extraHeight));
+	text-align: center;
+	
+	color: ivory;
+	text-decoration: none;
+	font-family: "Lucidia Console", Consolas, Monospace;
+}
+.topbar div a:hover {
+  background-color: DarkSlateBlue;
+}
+.topbar div a.selected {
+  background-color: MediumPurple;
+}
+
+/* switch for changing some colors */
+.themeImage {
+	float: right;
+	display: flex;
+	margin: calc(0.2em + var(--topbar-extraHeight)/2);
+	height: 1.6em;
+	width: 1.6em;
+}
+.themeSwitch {
+	float: right;
+	display: flex;
+	margin-top: calc(0.2em + var(--topbar-extraHeight)/2);
+	height: 1.6em;
+	width: 3.2em;
+	justify-content: var(--themeSwitch-justify-content);
+	
+	border-radius: 1000px;
+	background-color: var(--themeSwitch-background-color);
+}
+.themeSwitch input {
+	display: none;
+}
+.themeSwitch div {
+	border-radius: 1000px;
+	width: 1.6em;
+
+	background-color: azure;
+}
+
+/* put the main content in the center, with some background on the left and right */
+.entire {
+	align-items: top;
+	justify-content: center;
+	min-height: 100vh/*calc(100vh - 2em)*/;
+	
+	overflow: hidden;
+	
+	/*background-image: url("images/gauss.jpg");
+	background-size: 2%;*/
+	background-color: purple;
+}
+.entireContent {
+	min-height: 100vh;
+	width: var(--entireContent-width);
+	margin: 0 auto;
+	
+	padding: 10px 10px 1px 10px;
+	box-sizing: border-box; /*prevent padding from changing the width*/
+	
+	background-color: var(--content-background);
+}
+.backgroundTile {
+	width: 20%;
+	height: 0;
+	padding-bottom: 20%;
+	float: left;
+}
+.backgroundContainerLeft {
+	width: calc((100% - var(--entireContent-width))/2);
+	height: 42px;/*height does not matter since content will overflow as desired*/
+	float: left;
+}
+.backgroundContainerRight {
+	width: calc((100% - var(--entireContent-width))/2);
+	height: 42px;
+	float: right;
+}
+
+p {
+	font-family: 'Verdana', sans-serif;
+	font-size: 1.2em;
+	color: var(--font-color);
+}
+a:link {
+	color: var(--a-link-color);
+}
+a:visited {
+	color: var(--a-visited-color);
+}
+
+/* https://www.w3.org/Style/Examples/007/color-bullets.en.html */
+ul {
+	list-style: none;
+}
+ul li::before {
+	content: "\2022";
+	color: var(--font-color);
+	font-weight: bold;
+	display: inline-block; 
+	width: 1em;
+	margin-left: -1em;
+}
+ul li {
+	font-family: 'Verdana', sans-serif;
+	font-size: 1.2em;
+	color: var(--font-color);
+}
+}
