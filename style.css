@@ -7,31 +7,29 @@ body {
 	--topbar-extraHeight: 0em;
 	
 	--content-background: azure;
+	--secondary-content-background: pink;
 	--font-color: black;
 	--a-link-color: blue;
 	--a-visited-color: purple;
 	
 	--themeSwitch-justify-content: flex-end;
 	--themeSwitch-background-color: darkviolet;
-	
-	--course-background-color: bisque;
 }
 .dark {
 	--content-background: black;
+	--secondary-content-background: darkslategray;
 	--font-color: white;
 	--a-link-color: red;
 	--a-visited-color: orange;
 	
 	--themeSwitch-justify-content: flex-start;
 	--themeSwitch-background-color: lightgrey;
-	
-	--course-background-color: darkslategray;
 }
 /*for thin screens, remove background and increase button size*/
 @media screen and (orientation: portrait) {
   body {
     --entireContent-width: 100%;
-	--topbar-extraHeight: 1em;
+	--topbar-extraHeight: 4em;
   }
 }
 
@@ -69,7 +67,10 @@ body {
 .themeImage {
 	float: right;
 	display: flex;
-	margin: calc(0.2em + var(--topbar-extraHeight)/2);
+	margin-top: calc(0.2em + var(--topbar-extraHeight)/2);
+	margin-bottom: calc(0.2em + var(--topbar-extraHeight)/2);
+	margin-left: (0.2em);
+	margin-right: (0.2em);
 	height: 1.6em;
 	width: 1.6em;
 }
@@ -77,6 +78,9 @@ body {
 	float: right;
 	display: flex;
 	margin-top: calc(0.2em + var(--topbar-extraHeight)/2);
+	margin-bottom: calc(0.2em + var(--topbar-extraHeight)/2);
+	margin-left: (0.2em);
+	margin-right: (0.2em);
 	height: 1.6em;
 	width: 3.2em;
 	justify-content: var(--themeSwitch-justify-content);
@@ -143,6 +147,21 @@ a:link {
 }
 a:visited {
 	color: var(--a-visited-color);
+}
+h1 {
+	font-family: "Lucidia Console", Consolas, Monospace;
+	font-size: 1.2em;
+	font-weight: normal;
+	color: var(--font-color);
+	
+	background-color: var(--secondary-content-background);
+	padding-left: 0.5em;
+}
+.h1below {
+	padding-left: 2em;
+	padding-right: 2em;
+	padding-bottom: 1em;
+	padding-top: 0.2em;
 }
 
 /* https://www.w3.org/Style/Examples/007/color-bullets.en.html */

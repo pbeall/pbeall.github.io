@@ -13,8 +13,8 @@ updateTheme();
 
 //each page should have the same buttons in the topbar:
 const navigation = [
-	{link: "index.html", displayName: "CV"},
-	{link: "expository.html", displayName: "Expository"},
+	{link: "index.html", displayName: "Activities"},
+	//{link: "expository.html", displayName: "Expository"},
 	{link: "joke.html", displayName: "Memes"}
 ]
 
