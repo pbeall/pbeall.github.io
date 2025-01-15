@@ -82,7 +82,7 @@ backgroundContainer.insertBefore(backgroundContainerRight, insertBeforeThis);
 var colorLeft = numColors;
 var colorsAbove = Array(10).fill(numColors);
 
-for (let i=0; i<70; i++) {
+for (let i=0; i<90; i++) {
 	for (let j=0; j<10; j++) {
 		let colorCandidates = difference(difference(colors, colorToExcluded[colorLeft]), colorToExcluded[colorsAbove[j]]);
 		
