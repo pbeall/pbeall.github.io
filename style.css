@@ -14,6 +14,10 @@ body {
 	
 	--themeSwitch-justify-content: flex-end;
 	--themeSwitch-background-color: darkviolet;
+	
+	--gallery-tr-display: block;
+	--gallery-td-display: table-cell;
+	--gallery-td-width: 33.33%;
 }
 .dark {
 	--content-background: black;
@@ -30,6 +34,10 @@ body {
   body {
     --entireContent-width: 100%;
 	--topbar-extraHeight: 4em;
+	
+	--gallery-tr-display: block;
+	--gallery-td-display: block;
+	--gallery-td-width: 100%;
   }
 }
 
@@ -115,7 +123,7 @@ body {
 	width: var(--entireContent-width);
 	margin: 0 auto;
 	
-	padding: 20px 10px 1px 20px;
+	padding: 20px 20px 20px 20px;
 	box-sizing: border-box; /*prevent padding from changing the width*/
 	
 	background-color: var(--content-background);
@@ -184,4 +192,26 @@ li {
 li li {
 	font-size: 1em;
 }
+
+table {
+	width: 95%;
+	display: block;
+	margin: auto;
+	table-layout: fixed;
+}
+tr {
+	display: var(--gallery-tr-display);
+}
+td {
+	display: var(--gallery-td-display);
+	padding: 5px;
+	vertical-align: top;
+	width: var(--gallery-td-width);
+}
+td img {
+	width: 100%;
+}
+td p {
+	font-size: 0.8em;
+	margin-bottom: var(--gallery-p-margin);
 }
