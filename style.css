@@ -145,7 +145,7 @@ body {
 	float: right;
 }
 
-p {
+p, td {
 	font-family: 'Verdana', sans-serif;
 	font-size: 1.2em;
 	color: var(--font-color);
@@ -193,25 +193,33 @@ li li {
 	font-size: 1em;
 }
 
-table {
+table.gallery {
 	width: 95%;
 	display: block;
 	margin: auto;
 	table-layout: fixed;
 }
-tr {
+table.gallery tr {
 	display: var(--gallery-tr-display);
 }
-td {
+table.gallery td {
 	display: var(--gallery-td-display);
 	padding: 5px;
 	vertical-align: top;
 	width: var(--gallery-td-width);
 }
-td img {
+table.gallery td img {
 	width: 100%;
 }
-td p {
+table.gallery td p {
 	font-size: 0.8em;
 	margin-bottom: var(--gallery-p-margin);
+}
+
+table.emoji {
+	padding-left: 0.5em;
+}
+table.emoji td:first-child {
+	text-align: right;
+	width: 5em;
 }

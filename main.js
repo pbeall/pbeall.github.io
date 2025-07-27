@@ -14,8 +14,8 @@ updateTheme();
 //each page should have the same buttons in the topbar:
 const navigation = [
 	{link: "index.html", displayName: "Activities"},
-	//{link: "expository.html", displayName: "Expository"},
-	{link: "joke.html", displayName: "Memes"}
+	{link: "joke.html", displayName: "Memes"},
+	{link: "emoji.html", displayName: "Emojis"}
 ]
 
 var topbar = document.querySelector("div.topbar > div");
@@ -127,3 +127,28 @@ for (let i=0; i<90; i++) {
 	
 	colorLeft = numColors;
 }
+
+/*
+var emojiTable = document.querySelector(".emoji");
+
+var emojiData = [
+  { heading1:"value1_1",heading2:"value2_1",heading3:"value3_1",heading4:"value4_1",heading5:"value5_1" },
+  { heading1:"value1_2",heading2:"value2_2",heading3:"value3_2",heading4:"value4_2",heading5:"value5_2" }
+];
+
+for (i in emojiData) {
+	const leftData  = emojiData[i].emoji;
+	const rightData = emojiData[i].description;
+	const tr = emojiTable.insertRow();
+	
+	const td0 = tr.insertCell();
+	p0 = document.createElement("p");
+	p0.innerHTML = "AAA";//leftData;
+	td0.appendChild(p0);
+	
+	const td1 = tr.insertCell();
+	p1 = document.createElement("p");
+	p1.innerHTML = rightData;
+	td1.appendChild(p1);
+}
+*/
