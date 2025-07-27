@@ -219,6 +219,9 @@ table.gallery td p {
 table.emoji {
 	padding-left: 0.5em;
 }
+table.emoji td {
+	vertical-align: top;
+}
 table.emoji td:first-child {
 	text-align: right;
 	width: 5em;
