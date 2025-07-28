@@ -126,6 +126,8 @@ body {
 	padding: 20px 20px 20px 20px;
 	box-sizing: border-box; /*prevent padding from changing the width*/
 	
+	font-size: 16px;
+	
 	background-color: var(--content-background);
 }
 .backgroundTile {
